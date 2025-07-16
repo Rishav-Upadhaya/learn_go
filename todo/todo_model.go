@@ -6,6 +6,7 @@ type Todo struct {
 	Status 	bool `json:"status"`
 }
 
+// Date
 func GetDummyTodos() []Todo {
 	return []Todo{
 		{ID: 1, Title: "Learn Go", Status: true},

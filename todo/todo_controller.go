@@ -6,11 +6,13 @@ import (
 	"log"
 )
 
+// postman path: localhost:port/todos
 func HandleGetAllTodos(ctx *gin.Context) {
 	allTodos := GetDummyTodos()
 	ctx.JSON(http.StatusOK, allTodos)
 }
 
+// postman path: localhost:port/todo/1 with body
 func HandleAddTodo(ctx *gin.Context) {
 	var todo Todo
 	err := ctx.ShouldBindJSON(&todo)
@@ -28,6 +30,8 @@ func HandleAddTodo(ctx *gin.Context) {
 		"data" : todo,
 	})
 }
+
+// postman path: localhost:port/todo/1
 
 func HandleDeleteTodo(ctx *gin.Context){
 	id := ctx.Param("id")
