@@ -16,6 +16,12 @@ func main() {
 	g.GET("/todos", todo.HandleGetAllTodos)
 	g.POST("/todo", todo.HandleAddTodo)
 	g.DELETE("/todo/:id", todo.HandleDeleteTodo)
+
+	g.GET("/posts", post.HandleReadPost)
+	g.POST("/post", post.HandleAddPost)	
+	g.DELETE("/post/delete/:id", post.HandleDeletePost)
+	g.PUT("/post/update/:id", post.HandleUpdatePost)
+	
 	g.Run(":8000")
 }
 
