@@ -1,9 +1,9 @@
 package todo
 
 type Todo struct {
-	ID          int    `json:"id"`
-	Title       string `json:"title" binding:"required"`
-	Status 	bool `json:"status"`
+	ID          int    `gorm:"primary_key; auto_increment; not mull;" json:"id"`
+	Title       string `gorm:"not null; type:varchar(255); default:'';" json:"title" binding:"required"`
+	Status 	bool `gorm:"not null; default: true;" json:"status"`
 }
 
 // Date

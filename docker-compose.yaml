@@ -1,0 +1,14 @@
+version: '1.0'
+services:
+  go-practice-db-services:
+    container_name: go-practice-pd-db
+    image: postgres:alpine
+    ports: 
+      - 5433:5432
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_HOST_AUTH_METHOD=trust
