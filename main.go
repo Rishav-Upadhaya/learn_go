@@ -3,13 +3,18 @@ package main
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
-	"learn_golang/todo"
+	"learn_golang/database/myquery"
+	"learn_golang/handlers"
+	"learn_golang/models"
 	"learn_golang/post"
+	"learn_golang/todo"
+
+	"github.com/gin-gonic/gin"
+
+	"log"
 
 	"gorm.io/driver/postgres"
-  	"gorm.io/gorm"
-	"log"
+	"gorm.io/gorm"
 	// "learn_golang/todo/todo_controller"
 )
 
@@ -22,21 +27,34 @@ func main() {
 	g.DELETE("/todo/:id", todo.HandleDeleteTodo)
 
 	g.GET("/posts", post.HandleReadPost)
-	g.POST("/post", post.HandleAddPost)	
+	g.POST("/post", post.HandleAddPost)
 	g.DELETE("/post/delete/:id", post.HandleDeletePost)
 	g.PUT("/post/update/:id", post.HandleUpdatePost)
-	
+
+	//auth route
+	g.POST("/auth/register", handlers.RegisterUser)
+	g.GET("/auth/users", handlers.HandleGetAllUsers)
 
 	dsn := "host=localhost user=rishav password=rishav dbname=gopractice port=5433 sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
-	if err != nil{
+	if err != nil {
 		log.Println("Error conecting to database")
 		return
 	}
 	log.Println(db)
 	log.Println("Connected to database :5433")
-	
+
+	// migrate the User model
+	err = db.AutoMigrate(&models.User{})
+	if err != nil {
+		log.Println("Error migrating User model:", err)
+		return
+	}
+
+	//setting db on myquery
+	myquery.SetDefault(db)
+
 	g.Run(":8000")
 }
 
